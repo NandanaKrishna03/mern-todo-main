@@ -1,10 +1,19 @@
 const express = require('express');
 const app = express();
-require('dotenv').config();
 const cors = require('cors');
-app.use(cors({
-    origin: 'http://localhost:5175'
-}));
+const { v4: uuidv4 } = require('uuid');
+
+
+// Set up environment variables (use dotenv if necessary)
+require('dotenv').config();
+
+// CORS configuration
+const allowedOrigins = process.env.NODE_ENV === 'production' ? 
+  'https://your-frontend-site.onrender.com' : 
+  'http://localhost:5175';
+
+app.use(cors({ origin: allowedOrigins }));
+  // Add security headers
 app.use(express.json());
 
 let tasks = [];
@@ -12,8 +21,6 @@ let tasks = [];
 app.get('/', (req, res) => {
     res.json(tasks);
 });
-
-const { v4: uuidv4 } = require('uuid');
 
 app.post('/', (req, res) => {
     const task = req.body.task;
@@ -47,6 +54,12 @@ app.put('/task/:id', (req, res) => {
     } else {
         res.status(404).json({ message: "Task not found" });
     }
+});
+
+// Catch unhandled errors
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Internal Server Error' });
 });
 
 // Use dynamic port for Render deployment

@@ -6,9 +6,9 @@ function App() {
     const [taskInput, setTaskInput] = useState("");
     const [editTaskId, setEditTaskId] = useState(null);
     const [editTaskInput, setEditTaskInput] = useState("");
-
+    const BASE_URL = "https://your-backend-service.onrender.com";
     const getTasks = () => {
-        axios.get("https://mern-main-express.onrender.com")
+      axios.get(`${BASE_URL}`)
             .then(res => setTasks(res.data))
             .catch(err => console.error("Error fetching tasks:", err));
     };
@@ -19,7 +19,7 @@ function App() {
 
     const handleAddTask = (e) => {
         e.preventDefault();
-        axios.post("https://mern-main-express.onrender.com", { task: taskInput })
+        axios.post(`${BASE_URL}`, { task: taskInput })
             .then(() => {
                 setTaskInput("");
                 getTasks();
@@ -28,7 +28,7 @@ function App() {
     };
 
     const handleDeleteTask = (id) => {
-        axios.delete(`https://mern-main-express.onrender.com/task/${id}`)
+      axios.delete(`${BASE_URL}/task/${id}`)
             .then(() => getTasks())
             .catch(err => alert(err.response.data.message));
     };
@@ -40,7 +40,7 @@ function App() {
 
     const handleUpdateTask = (e) => {
         e.preventDefault();
-        axios.put(`https://mern-main-express.onrender.com/task/${editTaskId}`, { task: editTaskInput })
+        axios.put(`${BASE_URL}/task/${editTaskId}`, { task: editTaskInput })
             .then(() => {
                 setEditTaskId(null);
                 setEditTaskInput("");
@@ -87,4 +87,4 @@ function App() {
     );
 }
 
-export default App;
+export default  App;
