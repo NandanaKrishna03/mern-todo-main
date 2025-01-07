@@ -6,16 +6,15 @@ const { v4: uuidv4 } = require('uuid');
 
 
 require('dotenv').config();
-app.use(cors(
-  {
-    origin:[],
-    method:["POST","GET","POST","DELETE"],
-    credentials:true
-  }
-  ));
+
+const allowedOrigins = process.env.NODE_ENV === 'production' ? 
+  'https://your-frontend-site.onrender.com' : 
+  'http://localhost:5175';
+
+app.use(cors({ origin: allowedOrigins }));
 
 app.use(express.json());
-mongoose.connect(`mongodb+srv://nandanakrishna75:${dbPassword}@main.4ibgw.mongodb.net/?retryWrites=true&w=majority&appName=main`)
+
 let tasks = [];
 
 app.get('/', (req, res) => {
@@ -56,14 +55,14 @@ app.put('/task/:id', (req, res) => {
     }
 });
 
-
+// Catch unhandled errors
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
-
-
-app.listen(3001,()=>{
-  console.log("server is running")
+// Use dynamic port for Render deployment
+const port = process.env.PORT || 3010;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
