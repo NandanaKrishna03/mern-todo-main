@@ -16,14 +16,7 @@ app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 let tasks = [
-  {
-    _id:1,
-    task:"go to shop",
-  },
-  {
-    _id:2,
-    task:"Buy Chocolates",
-  },
+ 
 ];
 
 app.get('/', (req, res) => {
