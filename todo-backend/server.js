@@ -6,16 +6,16 @@ const { v4: uuidv4 } = require('uuid');
 
 
 require('dotenv').config();
-
-
-const allowedOrigins = process.env.NODE_ENV === 'production' ? 
-  'https://your-frontend-site.onrender.com' : 
-  'http://localhost:5175';
-
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors(
+  {
+    origin:[],
+    method:["POST","GET","POST","DELETE"],
+    credentials:true
+  }
+  ));
 
 app.use(express.json());
-
+mongoose.connect(`mongodb+srv://nandanakrishna75:${dbPassword}@main.4ibgw.mongodb.net/?retryWrites=true&w=majority&appName=main`)
 let tasks = [];
 
 app.get('/', (req, res) => {
@@ -63,7 +63,7 @@ app.use((err, req, res, next) => {
 });
 
 
-const port = process.env.PORT || 3010;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+
+app.listen(3001,()=>{
+  console.log("server is running")
 });
