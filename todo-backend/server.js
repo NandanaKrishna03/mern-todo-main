@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 const allowedOrigins = process.env.NODE_ENV === 'production' ? 
-  'https://your-frontend-site.onrender.com' : 
+  'https://mern-todo-main-front.onrender.com' : 
   'http://localhost:5175';
 
 app.use(cors({ origin: allowedOrigins }));
